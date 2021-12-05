@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<windows.h>
 #include<stdlib.h>
+#include<conio.h>
 //¡Ü 
 void gotoxy(int x, int y)
 {
@@ -24,24 +25,97 @@ void draw_map(int ma[25][25]) {
 }
 
 int main() { //head2 body3
-	int apple_x=20,apple_y=13,eat=0;
-	int head_x=13, head_y=13;
+	int status = 1;//1¿À 2¿Þ 3À§ 4¾Æ·¡
+	int key,x=12,y=12;
 	int map[25][25] = { 0, };
-	map[head_x][head_y] = 2;
-	map[13][12] = 3;
-	map[13][11] = 3;
 	for (int i = 0; i < 25; i++) {
 		for (int j = 0; j < 25; j++) {
 			if (i == 0 || j == 0 || i == 24 || j == 24) map[i][j] = 1;
 		}
 	}
-
+	draw_map(map);
+	gotoxy(x, y);
+	printf("¢Ã");
 	while (1) {
-		if (eat) {
-			apple_x = rand() % 24 + 1;
-			apple_y = rand() % 24 + 1;
-			map[apple_y][apple_x] = 4;
+
+		if (x == 0 || x == 48 || y == 0 || y == 25) {
+			system("cls");
+			printf("die");
+			break;
 		}
 
+		if (_kbhit()) {
+			key = _getch();
+			if (key == 72) {
+				gotoxy(x, y);
+				printf("  ");
+				y--;
+				gotoxy(x, y);//up
+				printf("¢Ã");
+				status = 4;
+			}
+			else if (key == 80) {
+				gotoxy(x, y);
+				printf("  ");
+				y++;
+				gotoxy(x, y);
+				printf("¢Ã");
+				status = 3;
+			}
+			else if (key == 75) {
+				gotoxy(x, y);
+				printf("  ");
+				x -= 2;
+				gotoxy(x, y);
+				printf("¢Ã");
+				status = 2;
+			}
+			else if (key == 77) {
+				gotoxy(x, y);
+				printf("  ");
+				x += 2;
+				gotoxy(x, y);
+				printf("¢Ã");
+				status = 1;
+			}
+		}
+
+		else {
+			switch (status) {
+			case 1: 
+				gotoxy(x, y);
+				printf("  ");
+				x += 2;
+				gotoxy(x, y);
+				printf("¢Ã");
+				break;
+			case 2: 
+				gotoxy(x, y);
+				printf("  ");
+				x -= 2;
+				gotoxy(x, y);
+				printf("¢Ã");
+				break;
+			case 3: 		
+				gotoxy(x, y);
+				printf("  ");
+				y++;
+				gotoxy(x, y);
+				printf("¢Ã");
+				break;
+			case 4: 
+				gotoxy(x, y);
+				printf("  ");
+				y--;
+				gotoxy(x, y);
+				printf("¢Ã");
+				break;
+			}
+		}
+		Sleep(400);
+			//80down
+			//75left
+			//77right
 	}
+
 }
